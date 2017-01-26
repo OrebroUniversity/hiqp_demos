@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package>
+  <name>hiqp_demos</name>
+  <version>0.0.1</version>
+  <description>The hiqp_demos package</description>
+
+  <author email="robert.krug@oru.se">Robert Krug</author>
+  <maintainer email="robert.krug@oru.se">Robert Krug</maintainer>
+
+  <license>GPLv3</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <run_depend>yumi_description</run_depend>
+  <run_depend>hiqp_ros</run_depend>
+  <run_depend>hiqp_core</run_depend>
+  <run_depend>hiqp_msgs</run_depend>
+
+</package>
