@@ -5,11 +5,11 @@
   This file:
    - launches Gazebo without gui
    - spawns the urdf model of YuMi on the parameter server
-   - loads the yumi.yaml yaml file
-   - loads the yumi_preload.yaml yaml file (predefined joint limits, primitives and tasks)
+   - loads the yumi.yaml file
+   - if uncommented, loads the yumi_preload.yaml yaml file (predefined joint limits, primitives and tasks)
    - spawns controllers specified by the controllers argument
    - launches the robot_state_publisher node
-   - launches RviZ to visualize YuMi and HiQP
+   - launches RviZ to visualize YuMi and the HiQP tasks
   -->
 
   <arg name="hardware_interface" default="VelocityJointInterface"/>
@@ -42,9 +42,8 @@
         output="screen"
         args="-urdf -model yumi -param robot_description"/>
 
-
-  <rosparam file="$(find hiqp_demos)/config/yumi.yaml" command="load"/>
-  <rosparam file="$(find hiqp_demos)/config/yumi_preload.yaml" command="load"/>
+   <rosparam file="$(find hiqp_demos)/config/yumi.yaml" command="load"/>
+  <!--rosparam file="$(find hiqp_demos)/config/yumi_preload.yaml" command="load"/-->
 
   <node name="controller_spawner" 
         pkg="controller_manager" 

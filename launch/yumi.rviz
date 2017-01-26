@@ -183,7 +183,7 @@ Visualization Manager:
       Marker Topic: /yumi/hiqp_joint_velocity_controller/visualization_marker
       Name: Tasks
       Namespaces:
-        {}
+        /yumi: true
       Queue Size: 100
       Value: true
     - Class: rviz/TF
@@ -266,10 +266,10 @@ Visualization Manager:
         Z: 0.149351
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.594798
+      Pitch: 0.324798
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 0.772205
+      Yaw: 0.262206
     Saved: ~
 Window Geometry:
   Displays:
@@ -287,5 +287,5 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 1545
-  X: 83
-  Y: 894
+  X: 76
+  Y: 905
