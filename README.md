@@ -1,4 +1,4 @@
-# The HiQP Demo package 
+# The HiQP Demos package 
 
 The package is showcasing the use of the hiqp framework with the ABB YuMi robot in simulation via a collection of shellscripts. Dependencies include the hiqp packages (git@github.com:OrebroUniversity/hiqp.git), as well as the yumi_description package (git@github.com:OrebroUniversity/yumi.git) which is also available from APT.
 
