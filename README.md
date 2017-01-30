@@ -1,15 +1,16 @@
 # The HiQP Demos package 
+Copyright (C) 2016-2017 Marcus A. Johansson
 
-The package is showcasing the use of the hiqp framework with the ABB YuMi robot in simulation via a collection of shellscripts. Dependencies include the hiqp packages (git@github.com:OrebroUniversity/hiqp.git), as well as the yumi_description package (git@github.com:OrebroUniversity/yumi.git) which is also available from APT. Early videos showing HiQP used for autonomous grasping and assisted teleoperation respectively can be found at: https://www.dropbox.com/s/2z4v4dn2u7w7sm0/yumi_autograsp.mp4?dl=0, https://www.dropbox.com/s/vmlgjishsw1d0v4/yumi_teleop.mp4?dl=0.
+The package is showcasing the use of the HiQP control framework, see [3], with the ABB YuMi robot in simulation via a collection of shellscripts. Dependencies include the hiqp packages (git@github.com:OrebroUniversity/hiqp.git), as well as the yumi_description package (git@github.com:OrebroUniversity/yumi.git) which is also available from APT. Early videos showing HiQP used for autonomous grasping and assisted teleoperation respectively can be found at: https://www.dropbox.com/s/2z4v4dn2u7w7sm0/yumi_autograsp.mp4?dl=0, https://www.dropbox.com/s/vmlgjishsw1d0v4/yumi_teleop.mp4?dl=0.
 
-# Structure
+## Structure
 
 - hiqp_demos/launch/yumi_simulation.launch: launch file starting a Gazebo simulation of YuMi and the HiQP control framework
 - hiqp_demos/config/yumi.yaml: ros_control parameter configuration for the HiQP control framework
 - hiqp_demos/config/yumi_preload.yaml: this file offers the possibility to start the control framework with preloaded tasks for, e.g., limiting joint positions/velocities and obstacle avoidance
 - hiqp_demos/scripts: various shell scripts containing exemplary servicealls to add/remove tasks and corresponding geometric primitives
 
-# Usage
+## Usage
 
 Launch hiqp_demos/launch/yumi_simulation.launch to start a Gazebo simulation and the HiQP velocity controller. By uncommenting ```<rosparam file="$(find hiqp_demos)/config/yumi_preload.yaml" command="load"/>``` in the launch file, a set of tasks defined in hiqp_demos/config/yumi_preload.yaml can be pre-loaded at start-up. Due to imperfect joint velocity tracking in Gazebo, the model is prone to drift in velocity control mode. It is therefore recommended to disable gravity in Gazebo via hiqp_demos/scripts/utility/disable_gravity_gazebo.sh. 
 
@@ -22,7 +23,7 @@ HiQP operates on geometric primitives, which can be attached to arbitrary frames
 
 Each task is assigned a priority. Tasks on lower hierarchy levels are fulfilled as good as possible (in a least-square-sense) in the null-space of higher ranked tasks, i. e., if redundancy is available. 
 
-# Examples
+## Examples
 
 In between examples, running tasks and associated primitive geometries can be removed with the convenience shell script in hiqp_demos/scripts/utility/clear_controller.sh. More detailed comments can be found in the corresponding shellscripts themselves. 
 
@@ -36,3 +37,5 @@ In between examples, running tasks and associated primitive geometries can be re
 [1] ... R. Krug, T. Stoyanov, V. Tincani, H. Andreasson, R. Mosberger, G. Fantoni, and A. J. Lilienthal. The next step in robot commissioning: Autonomous picking and palletizing. IEEE RA-L, 1(1):546–553, 2016.
 <br/>
 [2] ... T. Stoyanov, R. Krug, R. Muthusamy, and V. Kyrki. Grasp envelopes: Extracting constraints on gripper postures from online reconstructed 3D models. In Proc. IEEE/RSJ IROS, pp. 885–892, 2016.
+<br />
+[3] ... M. A. Johansson, Online whole-body control using hierarchical quadratic programming: implementation and evaluation of the HiQP control framework. MSc Thesis, 2016.
