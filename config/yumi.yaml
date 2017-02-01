@@ -23,3 +23,14 @@ yumi:
     task_monitoring:
       active: 1
       publish_rate: 50.0
+
+  # Joint Trajectory Velocity Controller ----------------------------------------
+  joint_trajectory_vel_controller:
+    type: "velocity_controllers/JointTrajectoryController"
+    joints:
+      - gripper_r_joint
+      - gripper_l_joint
+    gains:
+      gripper_r_joint: {p: 1.5,  d: 0, i: 0.002, i_clamp: 0.1}
+      gripper_l_joint: {p: 1.5,  d: 0, i: 0.002, i_clamp: 0.1}
+
