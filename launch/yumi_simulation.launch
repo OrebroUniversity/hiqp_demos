@@ -16,7 +16,6 @@
   <arg name="hardware_interface" default="VelocityJointInterface"/>
   <arg name="controllers" default="joint_state_controller hiqp_joint_velocity_controller"/>
 
-  <arg name="rviz" default="false"/>
   <arg name="paused" default="false"/>
   <arg name="use_sim_time" default="true"/>
   <arg name="gui" default="false"/>
