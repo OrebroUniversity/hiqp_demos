@@ -13,7 +13,7 @@ rosservice call /yumi/hiqp_joint_velocity_controller/set_primitives "primitives:
     frame_id: 'world'
     visible: true
     color: [0.0, 0.0, 1.0, 1.0]   
-    parameters: [0.298, -0.051, 0.231, 2.645, -0.079, 0.144]" 
+    parameters: [0.298, -0.051, 0.131, 1.74, 1.74, 0.0]" 
 
 #The alignment task will orient the frames in the same way
 #The projection task will co-locate the frame origins
