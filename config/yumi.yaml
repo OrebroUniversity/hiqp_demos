@@ -22,7 +22,7 @@ yumi:
       - yumi_joint_6_l
     task_monitoring:
       active: 1
-      publish_rate: 50.0
+      publish_rate: 500.0
 
   # Joint Trajectory Velocity Controller ----------------------------------------
   joint_trajectory_vel_controller:
