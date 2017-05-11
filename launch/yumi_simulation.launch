@@ -16,10 +16,12 @@
   <arg name="controllers" default="joint_state_controller hiqp_joint_velocity_controller joint_trajectory_vel_controller"/>
 
   <arg name="paused" default="false"/>
-  <arg name="use_sim_time" default="true"/>
+  <arg name="use_sim_time" default="false"/>
   <arg name="gui" default="false"/>
   <arg name="headless" default="false"/>
   <arg name="debug" default="false"/>
+  
+  <param name="use_sim_time" value="$(arg use_sim_time)"/>
 
   <arg unless="$(arg debug)" name="launch_prefix" value="" />
   <arg if="$(arg debug)" name="launch_prefix" value="gdb --ex run --args" />
