@@ -7,14 +7,11 @@ rosservice call /yumi/hiqp_joint_velocity_controller/set_primitives \
   frame_id: 'gripper_r_base'
   visible: true
   color: [0.0, 0.0, 1.0, 1.0]   
-  parameters: [0.0, 0.0, 0.1, 0.0, 0.0, 0.0]
-- name: 'target_frame'
-  type: 'frame'
-  frame_id: 'world'
-  visible: true
-  color: [0.0, 0.0, 1.0, 1.0]   
-  parameters: [0.298, -0.051, 0.231, 2.645, -0.079, 0.144]" 
+  parameters: [0.0, 0.0, 0.1, 0.0, 0.0, 0.0]" 
 
+rosrun tf static_transform_publisher 0.2, 0, 0.3, 0, 0, 0 world target_frame 100 &
+
+sleep 2
 #The alignment task will orient the frames in the same way
 #The projection task will co-locate the frame origins
 rosservice call /yumi/hiqp_joint_velocity_controller/set_tasks \
