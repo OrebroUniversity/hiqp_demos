@@ -24,6 +24,7 @@
   <arg name="gui" default="false"/>
   <arg name="headless" default="false"/>
   <arg name="debug" default="false"/>
+  <arg name="rviz" default="true"/>
 
   <arg unless="$(arg debug)" name="launch_prefix" value="" />
   <arg if="$(arg debug)" name="launch_prefix" value="gdb --ex run --args" />
@@ -56,6 +57,6 @@
     <remap from="/joint_states" to="/yumi/joint_states" />
   </node>
 
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find hiqp_demos)/launch/yumi.rviz"/>
+  <node if="$(arg rviz)" name="rviz" pkg="rviz" type="rviz" args="-d $(find hiqp_demos)/launch/yumi.rviz"/>
 
 </launch>
