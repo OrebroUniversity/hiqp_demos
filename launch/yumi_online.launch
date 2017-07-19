@@ -4,6 +4,7 @@
   <arg name="controllers" default="joint_state_controller hiqp_joint_velocity_controller"/>
   <arg name="gripper_controllers" default="gripper_effort_pos_controller_r gripper_effort_pos_controller_l"/>
   <arg name="name" default="yumi" doc="The robot name. Ensure this is the same name you give to the arm in the urdf instance."/>
+  <arg name="rviz" default="true"/>
 
   <!--  Hardware interfaces for the joints and grippers -->
   <arg name="arms_hardware_interface" default="VelocityJointInterface"/>
@@ -53,7 +54,7 @@
 
    <!--node name="joint_remapper" pkg="yumi_hw" type="egm_joints_remap.py" /-->
   
-   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find hiqp_demos)/launch/yumi.rviz"/>
+  <node if="$(arg rviz)" name="rviz" pkg="rviz" type="rviz" args="-d $(find hiqp_demos)/launch/yumi.rviz"/>
 
 
 </launch>
