@@ -12,27 +12,17 @@
    - launches RviZ to visualize YuMi and the HiQP tasks
   -->
 
+  <arg name="hardware_interface" default="VelocityJointInterface"/>
   <arg name="controllers" default="joint_state_controller hiqp_joint_velocity_controller"/>
-  <arg name="gripper_controllers" default="gripper_effort_pos_controller_r gripper_effort_pos_controller_l"/>
-
-  <!--  Hardware interfaces for the joints and grippers -->
-  <arg name="arms_hardware_interface" default="VelocityJointInterface"/>
-  <arg name="grippers_hardware_interface" default="EffortJointInterface"/>
 
   <arg name="paused" default="false"/>
   <arg name="use_sim_time" default="true"/>
   <arg name="gui" default="false"/>
   <arg name="headless" default="false"/>
   <arg name="debug" default="false"/>
-  <arg name="rviz" default="true"/>
 
   <arg unless="$(arg debug)" name="launch_prefix" value="" />
   <arg if="$(arg debug)" name="launch_prefix" value="gdb --ex run --args" />
-   
-  <rosparam file="$(find hiqp_demos)/config/yumi.yaml" command="load"/>
-  <rosparam file="$(find yumi_control)/config/gripper_controllers.yaml" command="load" ns="/yumi/"/>
-
-  <rosparam file="$(find hiqp_demos)/config/yumi_limits_preload.yaml" command="load"/>
 
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="debug" value="$(arg debug)" />
@@ -42,12 +32,26 @@
     <arg name="headless" value="$(arg headless)"/>
   </include>
 
-  <!-- URDF / SRDF parameters -->
-  <param name="robot_description" command="$(find xacro)/xacro.py '$(find yumi_description)/urdf/yumi.urdf.xacro' arms_interface:=$(arg arms_hardware_interface) grippers_interface:=$(arg grippers_hardware_interface)" />
-  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model yumi -param robot_description"  respawn="false" output="screen" />
-  
-  <node name="arm_controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="$(arg controllers)" ns="/yumi"/>
-  <node name="gripper_controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="$(arg gripper_controllers)" ns="/yumi"/>
+  <param name="robot_description" 
+         command="$(find xacro)/xacro.py '$(find yumi_description)/urdf/yumi.urdf.xacro' prefix:=$(arg hardware_interface)" />
+
+  <node name="urdf_spawner" 
+        pkg="gazebo_ros" 
+        type="spawn_model" 
+        respawn="false" 
+        output="screen"
+        args="-urdf -model yumi -param robot_description"/>
+
+   <rosparam file="$(find hiqp_demos)/config/yumi.yaml" command="load"/>
+  <!--rosparam file="$(find hiqp_demos)/config/yumi_preload.yaml" command="load"/-->
+
+  <node name="controller_spawner" 
+        pkg="controller_manager" 
+        type="spawner" 
+        respawn="false" 
+        output="screen"
+        ns="/yumi"
+        args="$(arg controllers)"/>
 
   <node name="robot_state_publisher" 
         pkg="robot_state_publisher" 
@@ -57,6 +61,6 @@
     <remap from="/joint_states" to="/yumi/joint_states" />
   </node>
 
-  <node if="$(arg rviz)" name="rviz" pkg="rviz" type="rviz" args="-d $(find hiqp_demos)/launch/yumi.rviz"/>
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find hiqp_demos)/launch/yumi.rviz"/>
 
 </launch>

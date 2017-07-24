@@ -1,7 +1,7 @@
 yumi:
   joint_state_controller:
       type: joint_state_controller/JointStateController
-      publish_rate: 250  
+      publish_rate: 50  
   hiqp_joint_velocity_controller:
     type: hiqp_ros/HiQPJointVelocityController
     visualization_publish_rate: 50 #Hz
