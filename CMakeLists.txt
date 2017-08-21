@@ -17,3 +17,8 @@
 cmake_minimum_required(VERSION 2.8.6)
 project(hiqp_demos)
 
+find_package(catkin REQUIRED COMPONENTS)
+
+catkin_package(
+  CATKIN_DEPENDS yumi_description hiqp_ros hiqp_core hiqp_msgs
+)
