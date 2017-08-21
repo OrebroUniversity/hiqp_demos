@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 <launch>
-
   <!--
   This file:
    - launches Gazebo without gui
@@ -12,6 +11,7 @@
    - launches RviZ to visualize YuMi and the HiQP tasks
   -->
 
+  <arg name="rviz" default="false"/>
   <arg name="hardware_interface" default="VelocityJointInterface"/>
   <arg name="controllers" default="joint_state_controller hiqp_joint_velocity_controller joint_trajectory_vel_controller"/>
 
@@ -35,7 +35,7 @@
   </include>
 
   <param name="robot_description" 
-         command="$(find xacro)/xacro.py '$(find yumi_description)/urdf/yumi.urdf.xacro' prefix:=$(arg hardware_interface)" />
+         command="$(find xacro)/xacro '$(find yumi_description)/urdf/yumi.urdf.xacro' --inorder prefix:=$(arg hardware_interface)" />
 
   <node name="urdf_spawner" 
         pkg="gazebo_ros" 
@@ -44,8 +44,8 @@
         output="screen"
         args="-urdf -model yumi -param robot_description"/>
 
-   <rosparam file="$(find hiqp_demos)/config/yumi.yaml" command="load"/>
-  <!--rosparam file="$(find hiqp_demos)/config/yumi_preload.yaml" command="load"/-->
+  <rosparam file="$(find hiqp_demos)/config/yumi.yaml" command="load"/>
+  <rosparam file="$(find hiqp_demos)/config/yumi_preload.yaml" command="load"/>
 
   <node name="controller_spawner" 
         pkg="controller_manager" 
