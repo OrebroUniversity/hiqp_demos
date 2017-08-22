@@ -21,7 +21,7 @@ rosservice call /yumi/hiqp_joint_velocity_controller/set_tasks \
   active: 1
   monitored: 1
   def_params: ['TDefGeomProj', 'point', 'plane', 'ee_point = target_plane']
-  dyn_params: ['TDynPD', '5.0', '6.0']
+  dyn_params: ['TDynPD', '100.0', '25.0']
 - name: 'neutral_pose'
   priority: 3
   visible: 1
