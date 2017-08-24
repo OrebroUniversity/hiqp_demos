@@ -45,7 +45,7 @@
         args="-urdf -model yumi -param robot_description"/>
 
   <rosparam file="$(find hiqp_demos)/config/yumi.yaml" command="load"/>
-  <rosparam file="$(find hiqp_demos)/config/yumi_preload.yaml" command="load"/>
+  <!-- <rosparam file="$(find hiqp_demos)/config/yumi_preload.yaml" command="load"/> -->
 
   <node name="controller_spawner" 
         pkg="controller_manager" 
