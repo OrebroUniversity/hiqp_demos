@@ -20,7 +20,7 @@ rosservice call /yumi/hiqp_joint_velocity_controller/set_tasks \
   visible: 1
   active: 1
   monitored: 1
-  def_params: ['TDefTracking', 'frame', 'frame', 'ee_frame = target_frame']
+  def_params: ['TDefTracking', 'frame', 'frame', 'ee_frame = target_frame', '0.04']
   dyn_params: ['TDynPD', '9.0', '6.0'] 
 - name: 'full_pose'
   priority: 3
