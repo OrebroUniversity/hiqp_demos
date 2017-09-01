@@ -11,8 +11,7 @@ rosservice call /yumi/hiqp_joint_velocity_controller/set_primitives \
   frame_id: 'world'
   visible: true
   color: [1.0, 0.0, 1.0, 1.0]   
-  parameters: [0.5, -0.15, 0.4, 0.0, 0.0, 0.0]" 
-#  parameters: [0.5, -0.15, 0.2, -1.57, 0.0, -1.57]"
+  parameters: [0.5, -0.15, 0.4, -1.57, 0.0, 1.57]" 
 
 rosservice call /yumi/hiqp_joint_velocity_controller/set_tasks \
 "tasks:  
@@ -22,7 +21,7 @@ rosservice call /yumi/hiqp_joint_velocity_controller/set_tasks \
   active: 1
   monitored: 1
   def_params: ['TDefTracking', 'frame', 'frame', 'target_frame = ee_frame', '0.05', '0.5']
-  dyn_params: ['TDynPD', '10.0', '10.0', '10.0', '1.0', '1.0', '1.0', '7.0', '7.0', '7.0', '2.0', '2.0', '2.0']
+  dyn_params: ['TDynPD', '10.0', '10.0', '10.0', '2.0', '2.0', '2.0', '7.0', '7.0', '7.0', '3.0', '3.0', '3.0']
 - name: 'neutral_pose'
   priority: 3
   visible: 1
