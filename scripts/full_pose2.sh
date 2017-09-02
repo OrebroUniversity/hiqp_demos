@@ -6,5 +6,5 @@ rosservice call /yumi/hiqp_joint_velocity_controller/set_tasks \
   active: 1
   monitored: 1
   def_params: ['TDefFullPose', '1.0', '0.0', '0.0', '0.0', '0.0', '0.0', '0.0', '-1.0', '0.0', '0.0', '0.0', '0.0', '0.0', '0.0']
-  dyn_params: ['TDynPD', '1.0', '3.0'] "
+  dyn_params: ['TDynPD', '1.0', '2.0'] "
 
