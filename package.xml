@@ -16,5 +16,6 @@
   <run_depend>hiqp_ros</run_depend>
   <run_depend>hiqp_core</run_depend>
   <run_depend>hiqp_msgs</run_depend>
-
+  <run_depend>yumi_description</run_depend>
+  <run_depend>yumi_control</run_depend>
 </package>
