@@ -28,13 +28,13 @@ rosservice call /yumi/hiqp_joint_velocity_controller/set_primitives \
   frame_id: yumi_base_link
   visible: true
   color: [0.0, 0.5, 0.0, 1.0]
-  parameters: [0.35, -0.15, 0.065, -1.57, 0.0, 1.57]
+  parameters: [0.35, -0.15, 0.06, -1.57, 0.0, 1.57]
 - name: pre_grasp_l_frame
   type: frame 
   frame_id: yumi_base_link
   visible: true
   color: [0.0, 0.5, 0.0, 1.0]
-  parameters: [0.35, 0.15, 0.065, 1.57, 0.0, 1.57]"
+  parameters: [0.35, 0.15, 0.06, 1.57, 0.0, 1.57]"
 
 rosservice call /yumi/hiqp_joint_velocity_controller/set_tasks \
 "tasks:  
@@ -44,14 +44,14 @@ rosservice call /yumi/hiqp_joint_velocity_controller/set_tasks \
   active: true
   monitored: true
   def_params: ['TDefTracking', 'frame', 'frame', 'gripper_r_frame = pre_grasp_r_frame', '0.1']
-  dyn_params: ['TDynPD', '1.0', '2.0']
+  dyn_params: ['TDynPD', '0.5', '1.5']
 - name: pre_grasp_l_track
   priority: 2
   visible: true
   active: true
   monitored: true
   def_params: ['TDefTracking', 'frame', 'frame', 'gripper_l_frame = pre_grasp_l_frame', '0.1']
-  dyn_params: ['TDynPD', '1.0', '2.0']
+  dyn_params: ['TDynPD', '0.5', '1.5']
 - name: 'neutral_pose'
   priority: 3
   visible: 1
