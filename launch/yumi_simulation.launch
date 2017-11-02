@@ -29,7 +29,6 @@
   <arg unless="$(arg debug)" name="launch_prefix" value="" />
   <arg if="$(arg debug)" name="launch_prefix" value="gdb --ex run --args" />
 
-
    
   <rosparam file="$(find hiqp_demos)/config/yumi.yaml" command="load"/>
   <rosparam file="$(find yumi_control)/config/gripper_controllers.yaml" command="load" ns="/yumi/"/>
