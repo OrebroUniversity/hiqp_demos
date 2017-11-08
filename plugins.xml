@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<library path="lib/libhiqp_demos_plugins">
+  <class type="hiqp::tasks::TDynPController" base_class_type="hiqp::TaskDynamics">
+    <description>
+      A plugin for a simple P-controller.
+    </description>
+  </class>
+</library>

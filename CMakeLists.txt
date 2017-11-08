@@ -17,3 +17,34 @@
 cmake_minimum_required(VERSION 2.8.6)
 project(hiqp_demos)
 
+set(CMAKE_BUILD_TYPE RelWithDebinfo)
+set(CMAKE_CXX_STANDARD 11)
+
+set(GUROBI_INCLUDE_DIR "$ENV{GUROBI_HOME}/include")
+set(GUROBI_LIB_DIR "$ENV{GUROBI_HOME}/lib")
+include_directories(${GUROBI_INCLUDE_DIR})
+link_directories(${GUROBI_LIB_DIR})
+
+find_package(Eigen3 REQUIRED)
+find_package(catkin REQUIRED COMPONENTS
+  hiqp_core
+  pluginlib
+)
+
+# find_package(Boost REQUIRED COMPONENTS system)
+catkin_package(
+  INCLUDE_DIRS include
+  CATKIN_DEPENDS hiqp_core pluginlib 
+#  DEPENDS system_lib
+)
+
+include_directories(
+  include
+  ${catkin_INCLUDE_DIRS}
+  ${EIGEN3_INCLUDE_DIR}
+)
+
+add_library(hiqp_demos_plugins src/tdyn_p_controller.cpp)
+add_dependencies(hiqp_demos_plugins ${catkin_EXPORTED_TARGETS})
+target_link_libraries(hiqp_demos_plugins ${catkin_LIBRARIES})
+
