@@ -21,67 +21,74 @@
 
 #include <ros/ros.h>
 
-namespace hiqp
-{
-  namespace tasks
-  {
+namespace hiqp {
+namespace tasks {
 
-    TDynPController::TDynPController(
-      std::shared_ptr<GeometricPrimitiveMap> geom_prim_map,
-      std::shared_ptr<Visualizer> visualizer)
+TDynPController::TDynPController(
+    std::shared_ptr<GeometricPrimitiveMap> geom_prim_map,
+    std::shared_ptr<Visualizer> visualizer)
     : TaskDynamics(geom_prim_map, visualizer) {}
 
+int TDynPController::init(const std::vector<std::string> &parameters,
+                          RobotStatePtr robot_state,
+                          const Eigen::VectorXd &e_initial,
+                          const Eigen::VectorXd &e_dot_initial,
+                          const Eigen::VectorXd &e_final,
+                          const Eigen::VectorXd &e_dot_final) {
 
-    int TDynPController::init(const std::vector<std::string>& parameters, RobotStatePtr robot_state, const Eigen::VectorXd& e_initial, const Eigen::VectorXd& e_dot_initial, const Eigen::VectorXd& e_final, const Eigen::VectorXd& e_dot_final) {
+  int dim = e_initial.rows();   ///< number of controlled dimensions
+  int size = parameters.size(); ///< number of given parameters
 
-      // int size = parameters.size();
-      // if (size != 2) {
-      //   printHiqpWarning("TDynPController requires 2 parameters, got " 
-      //     + std::to_string(size) + "! Initialization failed!");
+  // ensure consistency
+  assert((e_dot_initial.rows() == dim) && (e_final.rows() == dim) &&
+         (e_dot_final.rows() == dim));
 
-      //   return -1;
-      // }
+  // ensure that valid parameters are given - the first one is the Controller
+  // type, the second the controller gain
+  if (size != 2) {
+    printHiqpWarning("TDynPController requires two parameters, got " +
+                     std::to_string(size) + "! Initialization failed!");
+    return -1;
+  }
 
-      // client_NN_ = nh_.serviceClient<grasp_learning::QueryNN>("query_NN",true);
+  if (dim != 1) {
+    printHiqpWarning(
+        "TDynPController is a scalar controller valid for one dimension, got " +
+        std::to_string(dim) + "! Initialization failed!");
+    return -1;
+  }
 
+  // read the proportional gain
+  k_p_ = std::stod(parameters.at(1));
 
-      // lambda_ = std::stod(parameters.at(1));
+  // ensure stability ISL
+  if (k_p_ < 0.0) {
+    printHiqpWarning("Proportional gain needs to be positive, got " +
+                     std::to_string(k_p_) + "! Initialization failed!");
+    return -1;
+  }
 
-      // e_dot_star_.resize(e_initial.rows());
-      // performance_measures_.resize(e_initial.rows());
+  // initialize the controller
+  e_ddot_star_ = -k_p_ * e_initial; // we control the error in acceleration
+  performance_measures_.resize(dim); // custom performance measures (need not be implemented)
 
-      return 0;
-    }
+  return 0;
+}
 
-    int TDynPController::update(const RobotStatePtr robot_state, const std::shared_ptr< TaskDefinition > def){
-      // e_dot_star_.resize(e.size());
+int TDynPController::update(const RobotStatePtr robot_state,
+                            const std::shared_ptr<TaskDefinition> def) {
 
-      // grasp_learning::QueryNN srv_;
+  // P control law
+  e_ddot_star_ = -k_p_ * def->getTaskValue(); // def->getTaskValue() gives the
+                                              // error, def->getTaskDerivative()
+                                              // the error velocity
+  return 0;
+}
 
-      // std::vector<double> vec(e.data(), e.data() + e.size());
-      // srv_.request.task_measures = vec;
-
-      // std::vector<double> sample;
-      // if (client_NN_.call(srv_)){
-      //   sample = srv_.response.task_dynamics;
-      // }
-      // else{
-      //   std::cout<<"Calling NN server failed"<<std::endl;
-      // }
-      // // e_dot_star_ = -lambda_ * e;
-      // e_dot_star_ = Eigen::VectorXd::Map(sample.data(), sample.size());
-      // e_dot_star_ -= lambda_ * e;
-      
-      return 0;
-    }
-
-    int TDynPController::monitor() {
-      return 0;
-    }
+int TDynPController::monitor() { return 0; }
 
 } // namespace tasks
 
 } // namespace hiqp
 
-PLUGINLIB_EXPORT_CLASS(hiqp::tasks::TDynPController,
- hiqp::TaskDynamics)
+PLUGINLIB_EXPORT_CLASS(hiqp::tasks::TDynPController, hiqp::TaskDynamics)
