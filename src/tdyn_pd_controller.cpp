@@ -16,7 +16,7 @@
 
 #include <hiqp/utilities.h>
 
-#include <hiqp/tasks/tdyn_p_controller.h>
+#include <hiqp/tasks/tdyn_pd_controller.h>
 #include <pluginlib/class_list_macros.h>
 
 #include <ros/ros.h>
@@ -24,12 +24,12 @@
 namespace hiqp {
 namespace tasks {
 
-TDynPController::TDynPController(
+TDynPDController::TDynPDController(
     std::shared_ptr<GeometricPrimitiveMap> geom_prim_map,
     std::shared_ptr<Visualizer> visualizer)
     : TaskDynamics(geom_prim_map, visualizer) {}
 
-int TDynPController::init(const std::vector<std::string> &parameters,
+int TDynPDController::init(const std::vector<std::string> &parameters,
                           RobotStatePtr robot_state,
                           const Eigen::VectorXd &e_initial,
                           const Eigen::VectorXd &e_dot_initial,
@@ -45,15 +45,15 @@ int TDynPController::init(const std::vector<std::string> &parameters,
 
   // ensure that valid parameters are given - the first one is the Controller
   // type, the second the controller gain
-  if (size != 2) {
-    printHiqpWarning("TDynPController requires two parameters, got " +
+  if (size != 3) {
+    printHiqpWarning("TDynPDController requires three parameters, got " +
                      std::to_string(size) + "! Initialization failed!");
     return -1;
   }
 
   if (dim != 1) {
     printHiqpWarning(
-        "TDynPController is a scalar controller valid for one dimension, got " +
+        "TDynPDController is a scalar controller valid for one dimension, got " +
         std::to_string(dim) + "! Initialization failed!");
     return -1;
   }
@@ -61,34 +61,30 @@ int TDynPController::init(const std::vector<std::string> &parameters,
   // read the proportional gain
   k_p_ = std::stod(parameters.at(1));
 
-  // ensure stability ISL
-  if (k_p_ < 0.0) {
-    printHiqpWarning("Proportional gain needs to be positive, got " +
-                     std::to_string(k_p_) + "! Initialization failed!");
-    return -1;
-  }
+  // read the derivative gain
+  k_d_ = std::stod(parameters.at(2));  
 
   // initialize the controller
-  e_ddot_star_ = -k_p_ * e_initial; // we control the error in acceleration
+  e_ddot_star_ = -k_p_ * e_initial -k_d_ * e_dot_initial; // we control the error in acceleration
   performance_measures_.resize(dim); // custom performance measures (need not be implemented)
 
   return 0;
 }
 
-int TDynPController::update(const RobotStatePtr robot_state,
+int TDynPDController::update(const RobotStatePtr robot_state,
                             const std::shared_ptr<TaskDefinition> def) {
 
   // P control law
-  e_ddot_star_ = -k_p_ * def->getTaskValue(); // def->getTaskValue() gives the
+  e_ddot_star_ = -k_p_ * def->getTaskValue() -k_d_ * def->getTaskDerivative(); // def->getTaskValue() gives the
                                               // error, def->getTaskDerivative()
                                               // the error velocity
   return 0;
 }
 
-int TDynPController::monitor() { return 0; }
+int TDynPDController::monitor() { return 0; }
 
 } // namespace tasks
 
 } // namespace hiqp
 
-PLUGINLIB_EXPORT_CLASS(hiqp::tasks::TDynPController, hiqp::TaskDynamics)
+PLUGINLIB_EXPORT_CLASS(hiqp::tasks::TDynPDController, hiqp::TaskDynamics)

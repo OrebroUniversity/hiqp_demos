@@ -1,8 +1,14 @@
 <?xml version="1.0"?>
 <library path="lib/libhiqp_demos_plugins">
-  <class type="hiqp::tasks::TDynPController" base_class_type="hiqp::TaskDynamics">
+  <class type="hiqp::tasks::TDynPDController" base_class_type="hiqp::TaskDynamics">
     <description>
-      A plugin for a simple P-controller.
+      A plugin for a simple PD-controller.
+    </description>
+  </class>
+
+  <class type="hiqp::tasks::TDefXAxis" base_class_type="hiqp::TaskDefinition">
+    <description>
+      A plugin for a task definition to move a point along the x axis to the axis' origin.
     </description>
   </class>
 </library>

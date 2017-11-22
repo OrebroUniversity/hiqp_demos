@@ -11,29 +11,28 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HIQP_TDYN_P_CONTROLLER_H
-#define HIQP_TDYN_P_CONTROLLER_H
+#ifndef HIQP_TDYN_PD_CONTROLLER_H
+#define HIQP_TDYN_PD_CONTROLLER_H
 
 #include "std_msgs/String.h"
 #include <hiqp/robot_state.h>
 #include <hiqp/task_dynamics.h>
 #include <pluginlib/class_loader.h>
 #include <ros/ros.h>
-//#include <std_msgs/Float64MultiArray.h>
 
 namespace hiqp {
 namespace tasks {
 
-/*! \brief A simple P-controller
+/*! \brief A simple PD-controller
  *  \author Robert Krug */
-class TDynPController : public TaskDynamics {
+class TDynPDController : public TaskDynamics {
 public:
-  inline TDynPController() : TaskDynamics() {}
+  inline TDynPDController() : TaskDynamics() {}
 
-  TDynPController(std::shared_ptr<GeometricPrimitiveMap> geom_prim_map,
+  TDynPDController(std::shared_ptr<GeometricPrimitiveMap> geom_prim_map,
                   std::shared_ptr<Visualizer> visualizer);
 
-  ~TDynPController() noexcept {}
+  ~TDynPDController() noexcept {}
 
   int init(const std::vector<std::string> &parameters,
            RobotStatePtr robot_state, const Eigen::VectorXd &e_initial,
@@ -47,12 +46,13 @@ public:
 
 protected:
   double k_p_; ///< Controller proportional gain
+  double k_d_; ///< Controller derivative gain  
 
 private:
-  TDynPController(const TDynPController &other) = delete;
-  TDynPController(TDynPController &&other) = delete;
-  TDynPController &operator=(const TDynPController &other) = delete;
-  TDynPController &operator=(TDynPController &&other) noexcept = delete;
+  TDynPDController(const TDynPDController &other) = delete;
+  TDynPDController(TDynPDController &&other) = delete;
+  TDynPDController &operator=(const TDynPDController &other) = delete;
+  TDynPDController &operator=(TDynPDController &&other) noexcept = delete;
 
   /* ros::Publisher starting_pub_; */
   /* std_msgs::String msg_; */
