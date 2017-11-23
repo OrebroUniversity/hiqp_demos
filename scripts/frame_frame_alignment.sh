@@ -10,7 +10,7 @@ rosservice call /yumi/hiqp_joint_velocity_controller/set_primitives \
   parameters: [0.0, 0.0, 0.15, 0.0, 0.0, 0.0]
 - name: 'target_frame'
   type: 'frame'
-  frame_id: 'world'
+  frame_id: 'yumi_base_link'
   visible: true
   color: [0.0, 0.0, 1.0, 1.0]   
   parameters: [0.5, -0.15, 0.4, 0.0, 0.0, 1.57]" 
