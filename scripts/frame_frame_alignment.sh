@@ -1,5 +1,5 @@
 #Add a frame geometric primitive to the gripper which is parametrized by the x/y/z coordinates of the origin and either x/y/z euler angles or the w/x/y/z quaternion describing the orienation relative to 'frame_id'
-#Add another frame relative to world
+#Add another frame relative to yumi_base_link
 rosservice call /yumi/hiqp_joint_velocity_controller/set_primitives \
 "primitives:
 - name: 'ee_frame'

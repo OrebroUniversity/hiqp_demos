@@ -6,12 +6,12 @@ rosservice call /yumi/hiqp_joint_velocity_controller/set_primitives \
   visible: true
   color: [1.0, 0.0, 0.0, 1.0]   
   parameters: [0.0, 0.0, 0.15]
-- name: 'target_point'
-  type: 'point'
-  frame_id: 'yumi_body'
+- name: 'target_frame'
+  type: 'frame'
+  frame_id: 'yumi_base_link'
   visible: true
   color: [1.0, 0.0, 1.0, 1.0]   
-  parameters: [0.5, -0.3, 0.3]" 
+  parameters: [0.45, -0.3, 0.3, 0.0, 1.57, 1.57]" 
 
 rosservice call /yumi/hiqp_joint_velocity_controller/set_tasks \
 "tasks:  
@@ -20,7 +20,7 @@ rosservice call /yumi/hiqp_joint_velocity_controller/set_tasks \
   visible: 1
   active: 1
   monitored: 1
-  def_params: ['TDefTracking', 'point', 'point', 'ee_point = target_point', '0.04']
+  def_params: ['TDefTracking', 'point', 'frame', 'ee_point = target_frame', '0.04']
   dyn_params: ['TDynPD', '20.0', '10.0'] 
 - name: 'full_pose'
   priority: 3
