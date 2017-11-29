@@ -21,7 +21,7 @@ rosservice call /yumi/hiqp_joint_velocity_controller/set_tasks \
   active: 1
   monitored: 1
   def_params: ['TDefTracking', 'frame', 'frame', 'target_frame = ee_frame', '0.05', '0.5']
-  dyn_params: ['TDynPD', '10.0', '8.0']
+  dyn_params: ['TDynPD', '30.0', '30.0', '30.0', '3.0', '3.0', '3.0', '12.0', '12.0', '12.0', '4.0', '4.0', '4.0']
 - name: 'neutral_pose'
   priority: 3
   visible: 1
