@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch> 
 
-  <arg name="controllers" default="joint_state_controller hiqp_joint_velocity_controller"/>
+  <arg name="controllers" default="joint_state_controller force_torque_sensor_controller hiqp_joint_velocity_controller"/>
   <arg name="gripper_controllers" default="gripper_effort_pos_controller_r gripper_effort_pos_controller_l"/>
   <arg name="name" default="yumi" doc="The robot name. Ensure this is the same name you give to the arm in the urdf instance."/>
   <arg name="rviz" default="true"/>
@@ -16,6 +16,7 @@
 
   <rosparam file="$(find hiqp_demos)/config/yumi.yaml" command="load"/>
   <rosparam file="$(find yumi_control)/config/gripper_controllers.yaml" command="load" ns="/yumi/"/>
+  <rosparam file="$(find yumi_control)/config/ft_sensors_controllers.yaml" command="load" ns="/yumi"/>
   <rosparam file="$(find hiqp_demos)/config/yumi_limits_preload.yaml" command="load"/>
 
   <!-- URDF / SRDF parameters -->
