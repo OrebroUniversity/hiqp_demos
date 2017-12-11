@@ -2,7 +2,6 @@
 <launch> 
 
   <arg name="controllers" default="joint_state_controller hiqp_joint_velocity_controller"/>
-  <arg name="gripper_controllers" default="gripper_effort_pos_controller_r gripper_effort_pos_controller_l"/>
   <arg name="name" default="yumi" doc="The robot name. Ensure this is the same name you give to the arm in the urdf instance."/>
   <arg name="rviz" default="true"/>
 
@@ -15,23 +14,13 @@
   <arg name="port" default="80"/>
 
   <rosparam file="$(find hiqp_demos)/config/yumi.yaml" command="load"/>
-  <rosparam file="$(find yumi_control)/config/gripper_controllers.yaml" command="load" ns="/yumi/"/>
   <rosparam file="$(find hiqp_demos)/config/yumi_limits_preload.yaml" command="load"/>
 
   <!-- URDF / SRDF parameters -->
   <param name="robot_description" command="$(find xacro)/xacro.py '$(find yumi_description)/urdf/yumi.urdf.xacro' arms_interface:=$(arg arms_hardware_interface) grippers_interface:=$(arg grippers_hardware_interface) yumi_setup:='FACT' " />
   
+  <!-- Spawn the controllers -->
   <node name="arm_controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="$(arg controllers)" ns="/yumi"/>
-  <!--node name="gripper_controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="$(arg gripper_controllers)" ns="/yumi"/ -->
-
-  <node name="robot_state_publisher" 
-        pkg="robot_state_publisher" 
-        type="robot_state_publisher" 
-        respawn="false" 
-        output="screen">
-    <remap from="/joint_states" to="/yumi/joint_states" />
-  </node>
-
 
   <!-- EGM parameters -->
   <arg name="egm" default="true"/>
@@ -46,12 +35,16 @@
     <param name="use_egm" value="$(arg egm)"/>
   </node>
      
-    <!-- The grippers hardware interface -->
-    <!--node required="true" name="yumi_gripper" pkg="yumi_hw" type="yumi_gripper_node" respawn="false" ns="/yumi" output="screen"> 
-        <param name="ip" value="$(arg ip)"/>
-    </node-->
+  <!-- The grippers hardware interface -->
+  <node required="true" name="yumi_gripper" pkg="yumi_hw" type="yumi_gripper_node" respawn="false" ns="/yumi" output="screen"> 
+      <param name="ip" value="$(arg ip)"/>
+  </node>
 
-   <!--node name="joint_remapper" pkg="yumi_hw" type="egm_joints_remap.py" /-->
+  <!-- Joint state and robot state publisher calls -->
+  <node name="yumi_joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" >
+      <rosparam param="source_list">["/yumi/joint_states", "/yumi/gripper_states"]</rosparam>
+  </node>
+  <node name="yumi_robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
   
   <node if="$(arg rviz)" name="rviz" pkg="rviz" type="rviz" args="-d $(find hiqp_demos)/launch/yumi.rviz"/>
 
