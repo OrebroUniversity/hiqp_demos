@@ -11,11 +11,19 @@
   <license>GPLv3</license>
 
   <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>pluginlib</build_depend>
+  <build_depend>hiqp_core</build_depend>
 
   <run_depend>yumi_description</run_depend>
   <run_depend>hiqp_ros</run_depend>
+  <run_depend>pluginlib</run_depend>
   <run_depend>hiqp_core</run_depend>
   <run_depend>hiqp_msgs</run_depend>
   <run_depend>yumi_description</run_depend>
   <run_depend>yumi_control</run_depend>
+
+  <export>
+    <hiqp_core plugin="${prefix}/plugins.xml"/>
+  </export>
 </package>

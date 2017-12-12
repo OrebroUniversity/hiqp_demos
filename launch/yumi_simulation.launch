@@ -13,7 +13,7 @@
   -->
 
   <arg name="controllers" default="joint_state_controller hiqp_joint_velocity_controller"/>
-  <arg name="gripper_controllers" default="gripper_effort_pos_controller_r gripper_effort_pos_controller_l"/>
+  <arg name="gripper_controllers" default="gripper_effort_controller_r gripper_effort_controller_l"/>
 
   <!--  Hardware interfaces for the joints and grippers -->
   <arg name="arms_hardware_interface" default="VelocityJointInterface"/>
@@ -29,7 +29,6 @@
   <arg unless="$(arg debug)" name="launch_prefix" value="" />
   <arg if="$(arg debug)" name="launch_prefix" value="gdb --ex run --args" />
 
-
    
   <rosparam file="$(find hiqp_demos)/config/yumi.yaml" command="load"/>
   <rosparam file="$(find yumi_control)/config/gripper_controllers.yaml" command="load" ns="/yumi/"/>
@@ -44,8 +43,22 @@
   </include>
 
   <!-- URDF / SRDF parameters -->
-  <param name="robot_description" command="$(find xacro)/xacro.py '$(find yumi_description)/urdf/yumi.urdf.xacro' arms_interface:=$(arg arms_hardware_interface) grippers_interface:=$(arg grippers_hardware_interface)" />
-  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model yumi -param robot_description"  respawn="false" output="screen" />
+    <arg name="yumi_initial_pos" default="-J yumi_joint_1_l -1.41 
+    									  -J yumi_joint_2_l -2.1
+    									  -J yumi_joint_3_l 0.30
+    									  -J yumi_joint_4_l 0.0
+    									  -J yumi_joint_5_l 0.0
+    									  -J yumi_joint_6_l 0.0
+    									  -J yumi_joint_7_l 0.71
+    									  -J yumi_joint_1_r 1.41 
+    									  -J yumi_joint_2_r -2.1
+    									  -J yumi_joint_3_r 0.30
+    									  -J yumi_joint_4_r 0.0
+    									  -J yumi_joint_5_r 0.0
+    									  -J yumi_joint_6_r 0.0
+    									  -J yumi_joint_7_r -0.71"/>
+  <param name="robot_description" command="$(find xacro)/xacro.py '$(find yumi_description)/urdf/yumi.urdf.xacro' arms_interface:=$(arg arms_hardware_interface) grippers_interface:=$(arg grippers_hardware_interface) yumi_setup:='FACT' " />
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model yumi $(arg yumi_initial_pos) -param robot_description"  respawn="false" output="screen" />
   
   <node name="arm_controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="$(arg controllers)" ns="/yumi"/>
   <node name="gripper_controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="$(arg gripper_controllers)" ns="/yumi"/>

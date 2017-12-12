@@ -8,7 +8,7 @@ rosservice call /yumi/hiqp_joint_velocity_controller/set_primitives \
   parameters: [1.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 - name: 'target_line'
   type: 'line'
-  frame_id: 'world'
+  frame_id: 'yumi_base_link'
   visible: true
   color: [1.0, 0.0, 1.0, 1.0]   
   parameters: [0.0, 0.0, 1.0, 0.5, 1.0, 0.0]
@@ -20,7 +20,7 @@ rosservice call /yumi/hiqp_joint_velocity_controller/set_primitives \
   parameters: [0.0, 0.0, 0.15]
 - name: 'target_point'
   type: 'point'
-  frame_id: 'world'
+  frame_id: 'yumi_base_link'
   visible: true
   color: [0.0, 0.0, 1.0, 1.0]   
   parameters: [0.0, 0.8, 2.0]" 

@@ -27,22 +27,22 @@ rosservice call /yumi/hiqp_joint_velocity_controller/set_primitives \
   parameters: [0, -1, 0, 0, 0, 0.1]
 - name: 'grasp_target_axis'
   type: 'line'
-  frame_id: 'world'
+  frame_id: 'yumi_body'
   visible: true
   color: [0.0, 1.0, 0.0, 1.0]
   parameters: [0, 0, 1, 0.45, 0, 0.115]
 - name: 'grasp_cylinder'
   type: 'cylinder'
-  frame_id: 'world'
+  frame_id: 'yumi_body'
   visible: true
   color: [0.0, 1.0, 0.0, 0.4]
-  parameters: [0, 0, 1, 0.45, 0, 0.115, 0.025, 0.18]
+  parameters: [0, 0, 1, 0.65, 0.0, 0.0, 0.025, 0.18]
 - name: 'grasp_plane'
   type: 'plane'
-  frame_id: 'world'
+  frame_id: 'yumi_body'
   visible: true
   color: [0.0, 1.0, 0.0, 0.4]
-  parameters: [0, 0, 1, 0.25]"
+  parameters: [0, 0, 1, 0.2]"
 
 #End-effector point on the gripper - will be projected onto the grasp cylinder
 #Gripper approach axis will be enforced to intersect the grasp target axis
